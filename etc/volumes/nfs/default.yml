@@ -1,0 +1,10 @@
+tomcat:
+  volume_driver: nfs
+  volumes:
+    - ${NFS_HOST}/nfs/tomcat_home:/usr/local/home
+
+ldap:
+  volume_driver: nfs
+  volumes:
+    - ${NFS_HOST}/nfs/ldap_db:/var/lib/ldap
+    - ${NFS_HOST}/nfs/ldap_static:/etc/ldap

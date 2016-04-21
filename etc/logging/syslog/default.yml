@@ -1,0 +1,13 @@
+# set LOGSTASH_HOST to dns/ip of logstash host
+
+tomcat:
+  log_driver: "syslog"
+  log_opt:
+    syslog-address: "udp://${LOGSTASH_HOST}:25826"
+    syslog-tag: "tomcat"
+
+ldap:
+  log_driver: "syslog"
+  log_opt:
+    syslog-address: "udp://${LOGSTASH_HOST}:25826"
+    syslog-tag: "ldap"

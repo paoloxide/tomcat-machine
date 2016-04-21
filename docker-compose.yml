@@ -1,0 +1,34 @@
+# set TARGET_HOST to dns/ip of proxy
+
+tomcat:
+  container_name: tomcat
+  restart: always
+  image: totoki/tomcat-7:0.6
+  net: ${CUSTOM_NETWORK_NAME}
+  ports:
+    - "80:80"
+    - "443:443"
+  environment:
+    - "constraint:tier==public"
+    - "LDAP_SERVER=ldap:389"
+    - "LDAP_USERNAME=cn=admin,${LDAP_FULL_DOMAIN}"
+    - "LDAP_PASSWORD=${LDAP_PWD}"
+    - "LDAP_USER_BASE_DN=ou=people,${LDAP_FULL_DOMAIN}"
+    - "LDAP_GROUP_ATTRIBUTE=member"
+    - "LDAP_USER_ID_ATTRIBUTE=cn"
+    - "LDAP_USER_OBJECT_CLASS=inetOrgPerson"
+
+ldap:
+  container_name: ldap
+  restart: always
+  #build: ../images/docker-ldap/
+  image: accenture/adop-ldap:0.1.0
+  net: ${CUSTOM_NETWORK_NAME}
+  expose:
+    - "389"
+  ports:
+    - "389:389"
+  environment:
+    SLAPD_PASSWORD: ${LDAP_PWD}
+    SLAPD_DOMAIN: ${LDAP_DOMAIN}
+    SLAPD_FULL_DOMAIN: ${LDAP_FULL_DOMAIN}
